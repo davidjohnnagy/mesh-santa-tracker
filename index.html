@@ -178,9 +178,6 @@
         rudolph.style.color = '#ff0000';
         map.appendChild(rudolph);
 
-        // Trail particles
-        const trails = [];
-
         // Gift drops
         function dropGift(x, y) {
             const gift = document.createElement('div');
@@ -192,20 +189,20 @@
             setTimeout(() => gift.remove(), 4000);
         }
 
-        // Flight path waypoints (percentage of map)
+        // Flight path waypoints (% of map)
         const waypoints = [
-            {x: -10, y: 20},   // Start left
+            {x: -10, y: 20},
             {x: 20,  y: 15},
             {x: 40,  y: 25},
             {x: 60,  y: 18},
             {x: 80,  y: 30},
-            {x: 110, y: 22}    // Exit right
+            {x: 110, y: 22}
         ];
 
         let progress = 0;
 
         function animateSleigh() {
-            progress += 0.001;
+            progress += 0.001; // speed tweak
             if (progress >= 1) progress = 0;
 
             let wpIndex = Math.floor(progress * waypoints.length);
@@ -228,6 +225,7 @@
             rudolph.style.left = posX - 80 + 'px';
             rudolph.style.top = posY - 20 + 'px';
 
+            // Trail
             if (Math.random() > 0.9) {
                 const trail = document.createElement('div');
                 trail.className = 'trail';
@@ -237,6 +235,7 @@
                 setTimeout(() => trail.remove(), 2000);
             }
 
+            // Random gift drop
             if (Math.random() < 0.008) {
                 dropGift(posX - 20, posY + 20);
             }
