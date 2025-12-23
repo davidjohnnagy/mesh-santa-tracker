@@ -5,179 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesh Santa Tracker</title>
     <style>
+        * { box-sizing: border-box; }
         body {
-            background-color: #0a1f2f;
-            color: #e0e0e0;
-            font-family: 'Courier New', Courier, monospace;
-            text-align: center;
             margin: 0;
-            padding: 40px;
-            line-height: 1.6;
-            overflow: hidden;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: #e0e0e0;
+            background: url('https://grok.x.ai/generated-image/2025-12-22-1746-christmas-meshtastic.jpg') center/cover no-repeat fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow-x: hidden;
+        }
+        .content-overlay {
+            background: rgba(10, 31, 47, 0.75); /* Dark semi-transparent overlay for readability */
+            padding: 30px 20px;
+            text-align: center;
         }
         h1 {
             font-size: 2.8em;
             color: #ff3333;
-            margin-bottom: 10px;
-            text-shadow: 0 0 15px #ff6666;
+            text-shadow: 0 0 20px #ff6666;
+            margin: 10px 0;
         }
         h2 {
             font-size: 2.2em;
             color: #33ff33;
-            margin-top: 30px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-        .divider {
-            border-top: 1px solid #555;
-            margin: 40px auto;
-            width: 80%;
-        }
-        .notice {
-            font-size: 1.1em;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff3333;
-            border-radius: 8px;
+            margin: 15px 0;
         }
         .teaser {
             font-size: 1.4em;
-            margin: 40px;
             color: #ffcc00;
+            max-width: 900px;
+            margin: 20px auto;
         }
         .countdown {
-            font-size: 1.8em;
+            font-size: 2em;
             color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
             margin: 30px 0;
-            text-shadow: 0 0 10px #00ff00;
         }
         .music-button {
             background: #ff3333;
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 1.1em;
+            padding: 16px 40px;
+            font-size: 1.3em;
             cursor: pointer;
-            border-radius: 8px;
-            margin: 20px;
+            border-radius: 12px;
+            margin: 30px auto;
+            display: block;
+            width: 90%;
+            max-width: 500px;
         }
         .music-button:hover {
             background: #cc0000;
         }
         .form-section {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 25px;
-            background: rgba(0, 255, 0, 0.1);
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(0, 50, 0, 0.6);
             border: 2px solid #33ff33;
-            border-radius: 12px;
+            border-radius: 15px;
         }
         .form-section input, .form-section textarea {
             width: 100%;
+            padding: 14px;
             margin: 12px 0;
-            padding: 12px;
             background: #0a1f2f;
             border: 1px solid #33ff33;
             color: #e0e0e0;
-            box-sizing: border-box;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-size: 1em;
         }
         .form-section button {
             background: #33ff33;
             color: #0a1f2f;
+            padding: 16px 40px;
+            font-size: 1.2em;
             border: none;
-            padding: 12px 30px;
-            font-size: 1.1em;
+            border-radius: 12px;
             cursor: pointer;
-            border-radius: 8px;
+            width: 100%;
         }
         .form-section button:hover {
             background: #00cc00;
         }
-        .fake-map {
-            width: 90%;
-            max-width: 900px;
-            height: 560px;
+        .notice {
+            font-size: 1.1em;
             margin: 40px auto;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/c/c4/World_map_blank_black.svg') center/cover no-repeat;
-            border: 2px solid #33ff33;
+            max-width: 800px;
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff3333;
             border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 30px #00ff00;
-            animation: gentleRotate 120s linear infinite;
         }
-        @keyframes gentleRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .footer-credit {
+            margin: 40px auto 20px;
+            font-size: 1.2em;
+            color: #33ff33;
         }
-        .sleigh { position: absolute; font-size: 50px; pointer-events: none; z-index: 5; }
-        .rudolph { position: absolute; font-size: 30px; animation: noseGlow 1.5s infinite alternate; }
-        @keyframes noseGlow { from { text-shadow: 0 0 10px #ff0000; } to { text-shadow: 0 0 30px #ff0000, 0 0 40px #ff0000; } }
-        .trail { position: absolute; width: 8px; height: 8px; background: rgba(255,255,100,0.8); border-radius: 50%; pointer-events: none; box-shadow: 0 0 15px #ffff00; }
-        .gift { position: absolute; font-size: 24px; pointer-events: none; animation: fall 4s linear forwards; }
-        @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(600px) rotate(360deg); opacity: 0; } }
-        .node { position: absolute; width: 12px; height: 12px; background: #ff0000; border-radius: 50%; box-shadow: 0 0 15px #ff0000; animation: blink 1.8s infinite; opacity: 0.7; }
-        @keyframes blink { 0%,100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
-        .snow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+        .footer-credit a {
+            color: #00ff00;
+            text-decoration: underline;
+        }
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2em; }
+            h2 { font-size: 1.8em; }
+            .teaser { font-size: 1.2em; }
+            .countdown { font-size: 1.6em; }
+            .music-button { font-size: 1.2em; padding: 18px; }
+            .form-section { padding: 20px; }
+            .notice { font-size: 1em; padding: 15px; }
+        }
+        @media (max-width: 480px) {
+            h1 { font-size: 1.9em; }
+            .teaser { font-size: 1.1em; }
+            .countdown { font-size: 1.4em; }
+        }
+        /* Animations (Santa sleigh, gifts, etc.) */
+        .fake-map { position: relative; height: 0; } /* Hidden - background handles visuals */
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="content-overlay">
         <h1>Mesh Santa Tracker 🎄</h1>
         <h2>Powered by Meshtastic & Meshcore Nodes</h2>
 
         <div class="teaser">
-            This year, Santa has upgraded! His sleigh is now equipped with cutting-edge Meshtastic mesh network technology.<br>
-            Rudolph's nose is now a high-efficiency Meshcore beacon — even brighter and more reliable than ever.<br><br>
-            Full open-source tracking code drops Christmas Eve. Stay tuned!
+            This year, Santa has upgraded to MESHCORE! His sleigh is now equipped with cutting-edge Meshcore / Meshtastic mesh network technology. Children's presents will soon be tracked Wolrdwide via Mesh Radio Technology.<br>
+            Rudolph's Nose is now a high-efficiency Meshcore beacon — even brighter and more reliable than ever.<br><br>
+            Full MIT Licensed - open-source tracking code drops Christmas Eve. Stay Tuned!
         </div>
 
         <div class="countdown" id="countdown"></div>
 
         <button class="music-button" onclick="toggleMusic()">Play Christmas Music 🎶</button>
 
-        <div class="fake-map" id="map">
-            <div class="node" style="top:15%; left:25%;"></div>
-            <div class="node" style="top:35%; left:45%;"></div>
-            <div class="node" style="top:55%; left:65%;"></div>
-            <div class="node" style="top:25%; left:75%;"></div>
-            <div class="node" style="top:45%; left:15%;"></div>
-            <div class="node" style="top:65%; left:35%;"></div>
-            <div class="node" style="top:30%; left:55%;"></div>
-            <div class="node" style="top:50%; left:85%;"></div>
-        </div>
-
         <div class="form-section">
             <h2>Get Meshcore Santa Alerts!</h2>
             <p>Children (and Meshtastic fans) — sign up for special alerts on your node this Christmas Eve!</p>
-            <form action="https://formspree.io/f/YOUR_FORMSPREE_ID_HERE" method="POST">
+            <form action="https://formspree.io/f/xlgroydl" method="POST">
                 <input type="text" name="name" placeholder="Your Name" required>
                 <input type="email" name="email" placeholder="Your Email (for confirmation)" required>
                 <input type="text" name="node_id" placeholder="Meshcore Node ID (optional)">
-                <textarea name="message" placeholder="Your Christmas wish or message to Santa..." rows="4"></textarea>
-                <button type="submit">Send to North Pole Mesh</button>
+                <textarea name="message" placeholder="Your Christmas wish or message to Mesh Santa..." rows="4"></textarea>
+                <button type="submit">Send to North Pole Mesh!</button>
             </form>
         </div>
 
-        <div class="divider"></div>
-
         <div class="notice">
-            <strong>Security Notice:</strong><br><br>
-            This festive tracking system is restricted to authorized elves and Meshtastic enthusiasts only.<br>
-            All sleigh activity is logged via decentralized mesh nodes and subject to automated reindeer threat analysis.<br>
-            Unauthorized tracking attempts are strictly forbidden and may result in coal delivery.<br><br>
-            By viewing this page, you acknowledge and consent to these merry monitoring conditions. 🎅
+            <strong>SECURITY NOTICE:</strong><br><br>
+            This festive tracking system is restricted to authorized Staff - Santa & Elves and Meshtastic enthusiasts only.<br>
+            All sleigh activity is LOGGED via decentralized AI Powered Mesh nodes and subject to Automated Reindeer Threat Analysis (ARTA).<br>
+            Unauthorized tracking attempts are STRICTLY FORBIDDEN and may result in COAL Present delivery.<br><br>
+            By viewing this page, you acknowledge and consent to these Merry Monitoring Conditions (MMC). 🎅
+        </div>
+
+        <div class="footer-credit">
+            Brought to you by <a href="https://civtak.ca" target="_blank">CivTAK.ca</a>
         </div>
     </div>
 
-    <canvas class="snow" id="snow"></canvas>
     <audio id="music" loop></audio>
 
     <script>
@@ -235,105 +227,6 @@
                 audio.src = tracks[currentTrack];
                 audio.play();
             }
-        });
-
-        // Santa animation, snow, etc. (unchanged from previous version)
-        const map = document.getElementById('map');
-        const sleigh = document.createElement('div');
-        sleigh.className = 'sleigh';
-        sleigh.innerHTML = '🎅';
-        map.appendChild(sleigh);
-
-        const rudolph = document.createElement('div');
-        rudolph.className = 'rudolph';
-        rudolph.innerHTML = '🦌';
-        rudolph.style.color = '#ff0000';
-        map.appendChild(rudolph);
-
-        function dropGift(x, y) {
-            const gift = document.createElement('div');
-            gift.className = 'gift';
-            gift.innerHTML = '🎁';
-            gift.style.left = x + 'px';
-            gift.style.top = y + 'px';
-            map.appendChild(gift);
-            setTimeout(() => gift.remove(), 4000);
-        }
-
-        const waypoints = [{x:-10,y:20},{x:20,y:15},{x:40,y:25},{x:60,y:18},{x:80,y:30},{x:110,y:22}];
-        let progress = 0;
-
-        function animateSleigh() {
-            progress += 0.001;
-            if (progress >= 1) progress = 0;
-
-            let wpIndex = Math.floor(progress * waypoints.length);
-            let localProg = (progress * waypoints.length) % 1;
-            if (wpIndex >= waypoints.length - 1) wpIndex = waypoints.length - 2;
-
-            const start = waypoints[wpIndex];
-            const end = waypoints[wpIndex + 1];
-            const x = start.x + (end.x - start.x) * localProg;
-            const y = start.y + (end.y - start.y) * localProg;
-
-            const posX = (x / 100) * map.offsetWidth;
-            const posY = (y / 100) * map.offsetHeight;
-
-            sleigh.style.left = posX - 30 + 'px';
-            sleigh.style.top = posY - 40 + 'px';
-            rudolph.style.left = posX - 80 + 'px';
-            rudolph.style.top = posY - 20 + 'px';
-
-            if (Math.random() > 0.9) {
-                const trail = document.createElement('div');
-                trail.className = 'trail';
-                trail.style.left = posX - 40 + 'px';
-                trail.style.top = posY - 20 + 'px';
-                map.appendChild(trail);
-                setTimeout(() => trail.remove(), 2000);
-            }
-
-            if (Math.random() < 0.008) dropGift(posX - 20, posY + 20);
-
-            requestAnimationFrame(animateSleigh);
-        }
-        animateSleigh();
-
-        // Snow
-        const canvas = document.getElementById('snow');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const snowflakes = [];
-        for (let i = 0; i < 150; i++) {
-            snowflakes.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                r: Math.random() * 5 + 2,
-                d: Math.random() + 0.5,
-                drift: Math.random() * 2 - 1
-            });
-        }
-        function drawSnow() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-            ctx.beginPath();
-            for (let s of snowflakes) {
-                ctx.moveTo(s.x, s.y);
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                s.y += s.d;
-                s.x += s.drift * 0.5;
-                if (s.y > canvas.height) { s.y = -10; s.x = Math.random() * canvas.width; }
-                if (s.x > canvas.width || s.x < 0) s.drift *= -1;
-            }
-            ctx.fill();
-            requestAnimationFrame(drawSnow);
-        }
-        drawSnow();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
         });
     </script>
 </body>
