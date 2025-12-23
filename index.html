@@ -28,7 +28,6 @@
         h1 { font-size: 2.4em; color: #ff3333; text-shadow: 0 0 15px #ff6666; margin: 10px 0; }
         h2 { font-size: 1.8em; color: #33ff33; margin: 15px 0; }
         .teaser { font-size: 1.2em; color: #ffcc00; margin: 20px auto; max-width: 90%; }
-        .countdown { font-size: 1.8em; color: #00ff00; text-shadow: 0 0 10px #00ff00; margin: 30px 0; }
         .disclaimer { font-size: 1.2em; color: #ffff00; margin: 20px auto; max-width: 90%; font-style: italic; }
         .music-button {
             background: #ff3333; color: white; border: none; padding: 16px 32px;
@@ -55,7 +54,6 @@
             h1 { font-size: 2em; }
             h2 { font-size: 1.6em; }
             .teaser, .notice { font-size: 1em; }
-            .countdown { font-size: 1.5em; }
             .disclaimer { font-size: 1.1em; }
         }
     </style>
@@ -71,8 +69,6 @@
             This year, Santa 🎅 has upgraded to MESHCORE! His sleigh is now equipped with cutting-edge Canadian Engineered Meshcore / Meshtastic Technology. Children's presents will soon be tracked Worldwide via Mesh Radio Technology.<br>
             Rudolph's nose 🗼 is now a high-efficiency Meshcore beacon 🎅 — even brighter, more efficient, and more reliable than ever.
         </div>
-
-        <div class="countdown" id="countdown"></div>
 
         <div class="disclaimer">
             (Psst... this is kinda a JOKE demo site — all in good fun! We're a serious mesh group the rest of the year. Happy Holidays! 🎄)
@@ -108,26 +104,6 @@
     <audio id="music" loop></audio>
 
     <script>
-        // Countdown to Christmas Day 2025 (Dec 25, 00:00:00 local time)
-        const countdownEl = document.getElementById('countdown');
-        const christmasDay = new Date('2025-12-25T00:00:00').getTime();
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = christmasDay - now;
-            if (distance < 0) {
-                countdownEl.innerHTML = "Merry Christmas! 🎄";
-                return;
-            }
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            countdownEl.innerHTML = `Christmas Day in ${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
         // Christmas Music
         const audio = document.getElementById('music');
         const tracks = [
@@ -155,7 +131,6 @@
                     document.querySelector('.music-button').innerText = 'Pause Music';
                 }).catch(error => {
                     console.error("Audio play failed:", error);
-                    // Silent fallback
                 });
             }
         }
@@ -168,7 +143,7 @@
             }
         });
 
-        // Falling multicolored rotating Meshtastic nodes (canvas)
+        // Falling multicolored rotating Meshtastic nodes (50% larger)
         const canvas = document.getElementById('falling-nodes');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -182,7 +157,7 @@
             nodes.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height - canvas.height,
-                size: Math.random() * 20 + 15,
+                size: Math.random() * 30 + 22.5, // 50% larger (original was 15-35, now 22.5-52.5)
                 speed: Math.random() * 1.5 + 0.8,
                 color: colors[Math.floor(Math.random() * colors.length)],
                 rotation: Math.random() * Math.PI * 2,
@@ -201,7 +176,7 @@
             ctx.roundRect(-node.size / 2, -node.size * 1.2, node.size, node.size * 1.5, node.size / 5);
             ctx.fill();
             ctx.strokeStyle = '#000';
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 3; // Slightly thicker for larger size
             ctx.stroke();
 
             // Screen
@@ -213,7 +188,7 @@
             ctx.moveTo(0, -node.size * 1.2);
             ctx.lineTo(0, -node.size * 1.2 - node.size / 2);
             ctx.strokeStyle = '#000';
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 4; // Thicker antenna
             ctx.stroke();
 
             ctx.restore();
